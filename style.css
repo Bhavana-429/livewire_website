@@ -1,0 +1,351 @@
+/* Add to style.css */
+/* Reset and Base */
+header {
+    display: flex;                    /* Flexbox layout */
+    align-items: center;              /* Align items vertically */
+    justify-content: space-between;   /* Space logo and nav */
+    background-color: hsl(0, 0%, 5%);        /* Dark Charcoal Background */
+    padding: 10px 20px;               /* Space inside header */
+    position: fixed;                  /* Fixed at the top */
+    top: 0;
+    left: 0;
+    right: 0;                         /* Full width */
+    box-sizing: border-box;           /* Include padding in width */
+    z-index: 1000;                    /* Ensure above other content */
+    overflow: hidden;                 /* Prevent overflow */
+}
+
+/* Logo and Title Container */
+.logo {
+    display: flex;                    /* Align logo and text */
+    align-items: center;              /* Vertical alignment */
+    gap: 10px;                        /* Space between logo and title */
+}
+
+/* Logo Image */
+.logo img {
+    height: 50px;                     /* Logo size */
+}
+.logo,.memory img{}
+
+/* Title Text */
+.logo .title {
+    font-size: 32px;                 /* Font size */
+    color: white;                     /* White color */
+    font-family: 'Pacifico', cursive; /* Fancy handwritten font */
+    letter-spacing: 1.5px;     
+}
+
+/* Navigation Styling */
+nav {
+    display: flex;                    /* Flexbox for icons */
+    gap: 20px;                        /* Space between items */
+}
+
+/* Navigation Icons */
+nav a img {
+    height: 40px;                     /* Icon size */
+    transition: transform 0.3s ease;  /* Smooth hover */
+}
+
+/* Hover Effect */
+nav a:hover img {
+    transform: scale(1.2);            /* Slight zoom on hover */
+}
+
+/* Tooltip on Hover */
+nav a[title]:hover::after {
+    content: attr(title);             /* Show title on hover */
+    position: absolute;               /* Tooltip position */
+    background: #000;                 /* Tooltip background */
+    color: white;                     /* Text color */
+    padding: 5px 10px;                /* Padding */
+    border-radius: 8px;               /* Rounded corners */
+    white-space: nowrap;              /* Keep text in one line */
+    margin-top: 50px;                 /* Position below icon */
+    z-index: 1001;                    /* Ensure above other content */
+}
+
+/* Responsive Fix for Small Screens */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;      /* Stack on small screens */
+        text-align: center;          /* Centered content */
+    }
+    nav {
+        margin-top: 10px;            /* Space below logo */
+    }
+}
+.hero-section {
+    width: 100%;                               /* Full width */
+    height: 63.5vh;                              /* Image height */
+    background: url('images/lwlogo2.jpg') center/cover no-repeat; /* Fit image */
+    position: relative;                        /* Ensure overlay is inside */
+    display: flex;                             /* Flex for alignment */
+    align-items: center;                       /* Vertical center */
+    justify-content: center;                   /* Horizontal center */
+}
+
+/* Overlay Content (Fixed inside Image) */
+.hero-content {
+    width: 98%;
+    height: 53.5vh;  
+    color: white;                              /* White text */
+    text-align: center;                        /* Center text */
+    background: rgba(53, 51, 51, 0.6);           /* Semi-transparent black overlay */
+    padding: 40px;                             /* Padding for better readability */
+    border-radius: 12px;                       /* Rounded corners */
+    font-size: 2.5rem;                         /* Larger text */
+    max-width: 100%;                            /* Content width */
+    position: absolute;                        /* Keep it inside hero-section */
+    top: 50%;                                  /* Center vertically */
+    left: 50%;                                 /* Center horizontally */
+    transform: translate(-50%, -50%);         /* Perfect center fix */
+    
+}
+html {
+    scroll-behavior: smooth; /* Smooth scrolling to sections */
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensure consistent sizing */
+}
+.about-glass {
+  max-width: 900px;
+  margin: auto;
+  background-image: url("images/background.jpg");
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 40px;
+  color: #000000;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(7, 6, 6, 0.3);
+  text-align: center;
+}
+
+.about-glass h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  color: #e63232;
+}
+
+.about-glass .highlight {
+  color: #010101;
+  font-weight: bold;
+}
+
+.about-glass p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.about-glass em {
+  font-style: normal;
+  font-weight: 600;
+  color: #0c0c0c;
+}
+
+.about-glass strong {
+  font-weight: 700;
+  color: #000000;
+}
+
+/* --- Sidebar Styling for Achievements & Memory Wall --- */
+.sidebar {
+  position: fixed;
+  top: 80px;
+  right: -400px;
+  width: 350px;
+  height: calc(100vh - 80px);
+  background-color: #fff;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  padding: 20px;
+  z-index: 1001;
+  transition: right 0.4s ease;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+/* Show Sidebar When Active */
+.sidebar.active {
+  right: 0;
+}
+
+/* Sidebar Heading */
+.sidebar h3 {
+  text-align: center;
+  color: #7209b7;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #7209b7;
+  padding-bottom: 10px;
+}
+
+/* Content Layout Inside Sidebars */
+.achievements-content,
+.memories-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Common Item Style */
+.achievement-item,
+.memory-item {
+  text-align: center;
+}
+
+.achievement-item img,
+.memory-item img {
+  width: 100%;
+  height: 180px; /* Set a consistent height */
+  object-fit: cover; /* Crop without distortion */
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+
+.achievement-item img:hover,
+.memory-item img:hover {
+  transform: scale(1.03);
+}
+
+.achievement-item p,
+.memory-item p {
+  margin-top: 8px;
+  font-size: 16px;
+  color: #444;
+  font-weight: 500;
+}
+
+/* Overlay to Close Sidebar on Outside Click */
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+#overlay.active {
+  display: block;
+}
+.cta {
+  background: linear-gradient(to right, #e10b3a, #e37a1e); /* vibrant gradient */
+  color: #fff;
+  padding: 80px 20px;
+  text-align: center;
+  border-radius: 20px;
+  margin: 60px auto;
+  max-width: 1000px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.cta:hover {
+  transform: translateY(-5px);
+}
+
+.cta h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.cta .btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 1.2rem;
+  background-color: #fff;
+  color: #0a0404;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.cta .btn:hover {
+  background-color: #111;
+  color: #fff;
+}
+/* Wrapper that holds all middle content with a stylish background */
+
+footer {
+    background-color: #000000; /* Dark background */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+}
+footer p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+footer .social-icons {
+  margin: 20px 0;
+}
+
+footer .social-icons a {
+  color: #f9c74f;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+footer .social-icons a:hover {
+  color: #ffffff;
+}
+
+.content-bg {
+  background: url('images/background.jpg') center center / cover no-repeat fixed;
+  padding: 60px 20px;
+  position: relative;
+}
+.login-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('images/lwlogo1.jpg') center/cover no-repeat;
+}
+.login-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+.login-box input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+}
+.login-box button {
+  background-color: #7209b7;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.login-box button:hover {
+  background-color: #5e0991;
+}
+

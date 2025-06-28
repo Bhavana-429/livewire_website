@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Livewire - Dance Club of VNRVJIET</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header>
+        <div class="logo">
+            <img src="images/livewirelogo.jpg" alt="Livewire Logo">
+            <span class="title">Livewire</span>
+        </div>
+        <nav>
+            <a href="#hero" title="Home">
+                <img src="images/3d-home-icon-free-png.webp" alt="Home Icon">
+            </a>
+            <a href="#Achievements" title="Achievements">
+                <img src="images/al4.png" alt="Achievement Icon">
+            </a>
+            <div class="memory">
+             <a href="#memorywall" title="Memory Wall">
+                <img src="images/memories_icon.jpg" alt="Memory Icon">
+            </a>
+            </div>
+            <a href="#footer" title="About Us">
+                <img src="images/aboutlogo.png" alt="About Us Icon">
+            </a>
+            <a href="register.html" title="Register">
+                <img src="images/registerlogo.png" alt="Login Icon">
+            </a>
+        </nav>  
+</header>
+<!-- Achievements Section -->
+  <aside id="achievement-sidebar" class="sidebar">
+  <h3>Achievements</h3>
+  <div class="achievements-content">
+    <div class="achievement-item">
+      <img src="images/acheivement1.jpg" alt="Event 1">
+      <p>Pramana event at Gitam</p>
+    </div>
+    <div class="achievement-item">
+      <img src="images/acheivement2.jpg" alt="Event 2">
+      <p>CBIT</p>
+    </div>
+    <div class="achievement-item">
+      <img src="images/acheivement3.jpg" alt="Event 3">
+      <p>Nulsar</p>
+    </div>
+    <div class="achievement-item">
+      <img src="images/achievement4.jpg" alt="Event ">
+      <p>GNTW</p>
+    </div>
+
+  </div>
+</aside>
+
+ <!-- Memory Wall Sidebar -->
+<aside id="memory-sidebar" class="sidebar">
+  <h3>Memory Wall</h3>
+  <div class="memories-content">
+    <div class="memory-item">
+      <img src="images/memory1.jpg" alt="Memory 1">
+      <p>Independence Day</p>
+    </div>
+    <div class="memory-item">
+      <img src="images/memory2.jpg" alt="Memory 2">
+      <p>Workshops</p>
+    </div>
+    <div class="memory-item">
+      <img src="images/memory3.jpg" alt="Memory 3">
+      <p>Livewire Traditional day</p>
+    </div>
+    <div class="memory-item">
+      <img src="images/memory5.jpg" alt="Memory 3">
+      <p>Practise Sesions</p>
+    </div>
+    <div class="memory-item">
+      <img src="images/memory6.jpg" alt="Memory 3">
+      <p>Flash Mobs</p>
+    </div>
+    <!-- Add more memory items as needed -->
+  </div>
+</aside>
+  <!-- Hero Section -->
+<div class="content-bg">
+  <section id="hero" class="hero-section">
+    <div class="hero-content">
+        <h1>LIVEWIRE DANCE CLUB</h1>
+        <h2>Dancing through flames where passion ignites</h2>
+    </div>
+</section>
+
+
+ <section class="about-glass">
+  <h2>Welcome to Livewire</h2>
+  <p>
+   Livewire is not just a dance club — it's the heartbeat of VNRVJIET’s cultural spirit. We are a family of passionate performers, dedicated to turning every rhythm into a story.
+
+Whether you groove to Hip-Hop or flow with Contemporary vibes, your stage awaits here. Every rehearsal, every beat, every spotlight moment — is a chance to express your soul.
+
+From winning competitions to setting the stage on fire during fests — we dance not just with our feet, but with our hearts.
+
+So if you're ready to move, shine, and grow with a team that believes in you — Livewire is the place to be. Let’s create magic, together.
+  </p>
+</section>
+  <!-- Call to Action -->
+  <section class="cta">
+    <h2>Ready to Take the Stage?</h2>
+    <a href="register.html" class="btn">Click to Register for Auditions</a>
+  </section>
+</div>
+  <!-- Footer -->
+  <footer>
+    <section id="footer">
+    <p>Follow us on:</p>
+    <div class="social-icons">
+      <a href="https://instagram.com/livewire.crew" target="_blank">Instagram</a>
+      <a href="https://www.youtube.com/@LIVEWIRECREW" target="_blank">YouTube</a>
+    </div>
+    <p>&copy; 2025 Livewire Dance Club, VNRVJIET. All rights reserved.</p>
+    </section>
+  </footer>
+<!-- Overlay to close sidebar on outside click -->
+<div id="overlay"></div>
+
+<script>
+  const achievementIcon = document.querySelector('a[href="#Achievements"]');
+  const memoryIcon = document.querySelector('a[href="#memorywall"]');
+  const achievementSidebar = document.getElementById("achievement-sidebar");
+  const memorySidebar = document.getElementById("memory-sidebar");
+  const overlay = document.getElementById("overlay");
+
+  // Function to open a specific sidebar
+  function openSidebar(sidebar) {
+    closeAllSidebars(); // Close others
+    sidebar.classList.add("active");
+    overlay.classList.add("active");
+  }
+
+  // Close all
+  function closeAllSidebars() {
+    achievementSidebar.classList.remove("active");
+    memorySidebar.classList.remove("active");
+    overlay.classList.remove("active");
+  }
+
+  // Toggle logic
+  achievementIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    openSidebar(achievementSidebar);
+  });
+
+  memoryIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    openSidebar(memorySidebar);
+  });
+
+  // Close when clicking outside
+  overlay.addEventListener("click", closeAllSidebars);
+</script>
+
+</body>
+</html>

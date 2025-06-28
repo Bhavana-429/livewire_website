@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Audition Video</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .video-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: -1;
+    }
+
+    .upload-container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .upload-box {
+      background: rgba(58, 53, 53, 0.683);
+      padding: 40px;
+      border-radius: 16px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 20px rgb(249, 242, 242);
+      color: white;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .upload-box h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      text-shadow: 0 0 5px #fff;
+    }
+
+    .upload-box input[type="text"] {
+      margin: 20px 0;
+      padding: 12px;
+      background: white;
+      color: #000;
+      border-radius: 8px;
+      border: none;
+      width: 100%;
+    }
+
+    .upload-box button {
+      background: #ff4b2b;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .upload-box button:hover {
+      background: #ff1e00;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      margin-top: 10px;
+      color: #ffe0e0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop class="video-bg">
+    <source src="images/video1.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="overlay"></div>
+
+  <!-- Upload Form -->
+  <div class="upload-container">
+    <div class="upload-box">
+      <h2>Upload Your Audition Video </h2>
+        <form id="uploadForm">
+  <input type="text" id="videoLink" placeholder="Paste your Google Drive video link here" required />
+  <button type="submit">Submit Link</button>
+</form>
+
+<!-- Clear Instructions -->
+<div class="note" style="text-align: left; margin-top: 20px; line-height: 1.6;">
+  <strong style="color: #faf9f9;"> Steps to Submit Your Audition Video:</strong>
+  <ol style="padding-left: 20px; color: #ffffff; margin-top: 10px;">
+    <li>Open your <strong>Google Drive</strong>.</li>
+    <li>Click <strong>"New"</strong> → <strong>"File upload"</strong> → Upload your audition video.</li>
+    <li>Right-click the uploaded video → Click <strong>"Get link"</strong>.</li>
+    <li>Set access to <strong>"Anyone with the link"</strong> and copy the link.</li>
+    <li>Paste the link above and click <strong>Submit Link</strong>.</li>
+  </ol>
+</div>
+
+    </div>
+  </div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module">
+  import { db } from './firebase.js';
+  import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const form = document.getElementById("uploadForm");
+  const linkInput = document.getElementById("videoLink");
+
+  //  Get name and roll from localStorage
+  const name = localStorage.getItem("name");
+  const roll = localStorage.getItem("roll");
+
+  //  If user didn't register, send them back
+  if (!name || !roll) {
+    alert("You must register first.");
+    window.location.href = "register.html";
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const link = linkInput.value;
+
+    try {
+      await addDoc(collection(db, "videoLinks"), {
+        name,
+        roll,
+        videoLink: link,
+        timestamp: new Date()
+      });
+
+      alert("Link submitted successfully!");
+      form.reset();
+
+      localStorage.removeItem("name");
+      localStorage.removeItem("roll");
+
+    } catch (err) {
+      console.error("Error submitting link:", err);
+      alert("Something went wrong. Try again.");
+    }
+  });
+</script>
+
+</body>
+</html>

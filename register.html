@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - Livewire Auditions</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('images/background1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      backdrop-filter: brightness(0.8);
+    }
+
+    .register-container {
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      padding: 40px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      color: #fff;
+    }
+
+    .register-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      color: #ffeaa7;
+      text-shadow: 0 0 15px #ff6b81;
+    }
+
+    .register-form label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #ffbaba;
+    }
+
+    .register-form input,
+    .register-form select,
+    .register-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      background-color: #fefefe;
+      color: #333;
+    }
+
+    .register-form input:focus,
+    .register-form select:focus,
+    .register-form textarea:focus {
+      outline: none;
+      box-shadow: 0 0 10px #ff9ff3;
+    }
+
+    .register-form button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to right, #ff6a5b, #ff3c3c);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .register-form button:hover {
+      background: #d63031;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #ffe0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Livewire Audition Registration </h2>
+    <form class="register-form" id="registerForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required>
+
+      <label for="roll">Roll Number</label>
+      <input type="text" id="roll" required>
+
+      <label for="branch">Branch</label>
+      <select id="branch" required>
+        <option value="" disabled selected>Select Branch</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="MECH">MECH</option>
+        <option value="CIVIL">CIVIL</option>
+        <option value="AIML">AIML</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="style">Preferred Dance Style</label>
+      <select id="style" required>
+        <option value="" disabled selected>Select Style</option>
+        <option value="Breaking">Breaking</option>
+        <option value="Locking">Locking</option>
+        <option value="Popping">Popping</option>
+        <option value="Krumping">Krumping</option>
+        <option value="House Dance">House Dance</option>
+        <option value="Freestyle">Freestyle / Street Dance</option>
+        <option value="Litefeet">Litefeet</option>
+        <option value="Waacking">Waacking</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="experience">Dance Experience (optional)</label>
+      <textarea id="experience" rows="3" placeholder="Mention any previous training, shows, or competitions"></textarea>
+
+      <button type="submit">Submit Registration</button>
+    </form>
+    <p class="footer-note">You'll be redirected to upload your audition video after successful registration 🎥</p>
+  </div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module">
+  import { db } from './firebase.js';
+  import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const form = document.getElementById('registerForm');
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+      name: document.getElementById("name").value,
+      roll: document.getElementById("roll").value,
+      branch: document.getElementById("branch").value,
+      style: document.getElementById("style").value,
+      experience: document.getElementById("experience").value,
+      timestamp: new Date()
+    };
+
+    try {
+      await addDoc(collection(db, "registrations"), data);
+
+      //  Store to localStorage
+      localStorage.setItem("name", data.name);
+      localStorage.setItem("roll", data.roll);
+
+      alert("Registration successful! Redirecting to video upload...");
+      window.location.href = "upload.html";
+    } catch (err) {
+      console.error("Error saving form:", err);
+      alert("Something went wrong. Please try again.");
+    }
+  });
+</script>
+
+</body>
+</html>

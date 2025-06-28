@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Livewire Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --card-bg: rgba(255,255,255,0.06);
+      --border-light: rgba(255,255,255,0.1);
+      --primary: #ff4b2b;
+      --primary-darker: #ff1e00;
+      --accent: #ff6b6b;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--bg-dark);
+      color:#fff;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    header{
+      padding:20px 30px;
+      text-align:center;
+      background:var(--card-bg);
+      border-bottom:1px solid var(--border-light);
+    }
+    header h1{
+      font-size:2rem;
+      color:var(--accent);
+      font-weight:600;
+    }
+    main{flex:1;width:100%;max-width:850px;margin:40px auto;padding:0 15px}
+
+    #panelHeader{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:25px;
+    }
+    #panelHeader h2{font-weight:600;font-size:1.6rem}
+    #signOutBtn{
+      background:none;
+      color:#fff;
+      border:1px solid var(--primary);
+      padding:8px 16px;
+      border-radius:50px;
+      cursor:pointer;
+      transition:background .3s,border .3s;
+    }
+    #signOutBtn:hover{background:var(--primary);}    
+
+    #submissions{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:20px;
+    }
+    .card{
+      background:var(--card-bg);
+      border:1px solid var(--border-light);
+      border-radius:12px;
+      padding:18px 20px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.35);
+      transition:transform .25s;
+    }
+    .card:hover{transform:translateY(-4px)}
+    .card p{margin:6px 0;font-size:.9rem}
+    .card a{
+      display:inline-block;
+      margin-top:10px;
+      padding:8px 16px;
+      background:var(--primary);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      text-decoration:none;
+      font-size:.9rem;
+      transition:background .3s;
+    }
+    .card a:hover{background:var(--primary-darker)}
+    #count{font-size:1rem;margin-left:6px;color:var(--accent)}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Livewire Admin Panel</h1>
+  </header>
+
+  <main>
+    <div id="panelHeader">
+      <h2>Video Submissions <span id="count"></span></h2>
+      <button id="signOutBtn">Sign Out</button>
+    </div>
+    <div id="submissions"></div>
+  </main>
+
+  <script type="module">
+    import { auth, db } from './firebase.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const signOutBtn = document.getElementById('signOutBtn');
+    const submissionsEl = document.getElementById('submissions');
+    const countSpan = document.getElementById('count');
+
+    const ALLOWED_ADMINS = ["kondurubhavana04@gmail.com", "22071a0429@vnrvjiet.in"];
+
+    // Admin auth check
+    onAuthStateChanged(auth, user => {
+      if (!user || !ALLOWED_ADMINS.includes(user.email)) {
+        alert("Access denied. Please log in as admin.");
+        window.location.href = "login.html";
+      } else {
+        loadSubmissions();
+      }
+    });
+
+    signOutBtn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        localStorage.removeItem("admin");
+        window.location.href = "login.html";
+      });
+    });
+
+    async function loadSubmissions() {
+      submissionsEl.innerHTML = "<p>Loading…</p>";
+      const q = query(collection(db, "videoLinks"), orderBy("timestamp", "desc"));
+      const snap = await getDocs(q);
+      submissionsEl.innerHTML = "";
+      countSpan.textContent = `(${snap.size})`;
+      snap.forEach(doc => {
+        const d = doc.data();
+        const date = d.timestamp?.seconds ? new Date(d.timestamp.seconds * 1000) : new Date();
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <p><strong>Name:</strong> ${d.name}</p>
+          <p><strong>Roll:</strong> ${d.roll}</p>
+          <p><strong>Submitted:</strong> ${date.toLocaleString()}</p>
+          <a href="${d.videoLink}" target="_blank">Watch Video</a>
+        `;
+        submissionsEl.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
