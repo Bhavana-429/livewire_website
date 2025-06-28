@@ -5,14 +5,15 @@ header {
     align-items: center;              /* Align items vertically */
     justify-content: space-between;   /* Space logo and nav */
     background-color: hsl(0, 0%, 5%);        /* Dark Charcoal Background */
-    padding: 10px 20px;               /* Space inside header */
+    padding: 5px 20px;               /* Space inside header */
     position: fixed;                  /* Fixed at the top */
     top: 0;
     left: 0;
     right: 0;                         /* Full width */
     box-sizing: border-box;           /* Include padding in width */
     z-index: 1000;                    /* Ensure above other content */
-    overflow: hidden;                 /* Prevent overflow */
+    overflow: hidden; 
+    flex-wrap: nowrap;                /* Prevent overflow */
 }
 
 /* Logo and Title Container */
@@ -39,7 +40,8 @@ header {
 /* Navigation Styling */
 nav {
     display: flex;                    /* Flexbox for icons */
-    gap: 20px;                        /* Space between items */
+    gap: 20px;    
+    flex-shrink:0;                    /* Space between items */
 }
 
 /* Navigation Icons */
@@ -77,22 +79,27 @@ nav a[title]:hover::after {
     }
 }
 .hero-section {
-    width: 100%;                               /* Full width */
-    height: 63.5vh;                              /* Image height */
-    background: url('images/lwlogo2.jpg') center/cover no-repeat; /* Fit image */
-    position: relative;                        /* Ensure overlay is inside */
-    display: flex;                             /* Flex for alignment */
-    align-items: center;                       /* Vertical center */
-    justify-content: center;                   /* Horizontal center */
+  width: 100vw;
+  height: 50.0vh;
+  background: url('images/lwlogo2.jpg') center center / cover no-repeat;
+  margin: 0;
+  padding: 80px 0 0 0; /* top padding = header height */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
+
+
 
 /* Overlay Content (Fixed inside Image) */
 .hero-content {
-    width: 98%;
-    height: 53.5vh;  
+    width: 100%;
+    height: 40vh;  
     color: white;                              /* White text */
     text-align: center;                        /* Center text */
-    background: rgba(53, 51, 51, 0.6);           /* Semi-transparent black overlay */
+              /* Semi-transparent black overlay */
     padding: 40px;                             /* Padding for better readability */
     border-radius: 12px;                       /* Rounded corners */
     font-size: 2.5rem;                         /* Larger text */
@@ -103,12 +110,21 @@ nav a[title]:hover::after {
     transform: translate(-50%, -50%);         /* Perfect center fix */
     
 }
+.hero-content h1,
+.hero-content h2{
+  font-size:clamp(1.6rem,6vw,3rem); /* scales from phone to desktop */
+  line-height:1.2;
+  margin:0;
+}
 html {
     scroll-behavior: smooth; /* Smooth scrolling to sections */
 }
 html, body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+  
+  width: 100%;
     box-sizing: border-box; /* Ensure consistent sizing */
 }
 .about-glass {
@@ -348,4 +364,91 @@ footer .social-icons a:hover {
 .login-box button:hover {
   background-color: #5e0991;
 }
+/* =========================================================
+   MOBILE REFINEMENTS  – place AFTER all existing styles
+   ========================================================= */
+@media (max-width: 600px) {
 
+  /* ---------- Header & Nav ---------- */
+  header          { padding: 8px 12px; gap: 10px; }
+  .logo img       { height: 40px; }          /* smaller logo */
+  .logo .title    { font-size: 1.4rem; }     /* smaller text */
+  nav             { gap: 14px; }
+  nav a img       { height: 30px; }          /* smaller icons */
+
+  /* ---------- Hero section ---------- */
+  .hero-section   { height: 48vh; }          /* shorter on phones */
+  .hero-content   {
+    width: 92%;
+    height: auto;
+    padding: 20px 10px;
+    font-size: 1.4rem;                       /* scale text */
+  }
+
+  /* ---------- About glass card ---------- */
+  .about-glass {
+    padding: 24px 16px;
+    margin: 30px 8px;
+    font-size: 0.95rem;                      /* body text */
+  }
+  .about-glass h2 { font-size: 1.6rem; }
+
+  /* ---------- CTA ---------- */
+  .cta           { padding: 40px 16px; margin: 40px 8px; }
+  .cta h2        { font-size: 1.6rem; }
+  .cta .btn      { padding: 10px 24px; font-size: 1rem; }
+
+  /* ---------- Sidebars ---------- */
+  .sidebar       {
+    width: 90vw;           /* take almost full width */
+    right: -100vw;         /* hide off‑canvas */
+    top: 56px;             /* adjust for smaller header */
+  }
+  .sidebar.active { right: 0; }
+
+  /* ---------- Achievement / Memory cards ---------- */
+  .achievement-item img,
+  .memory-item img {
+    height: 140px;         /* scale down card images */
+  }
+  .achievement-item p,
+  .memory-item p { font-size: 0.88rem; }
+
+  /* ---------- Footer ---------- */
+  footer          { padding: 14px 0; font-size: 0.8rem; }
+  footer .social-icons a { margin: 0 8px; font-size: 1rem; }
+
+  /* ---------- Login / Auth boxes ---------- */
+  .login-box,
+  #authBox {
+    width: 92%;
+    padding: 24px 18px;
+  }
+  input, button   { font-size: 1rem; }
+
+  /* ---------- Grid cards in admin panel ---------- */
+  #submissions   { grid-template-columns: 1fr; } /* single column */
+  .card          { padding: 14px; }
+}
+@media (max-width:600px){
+  /* tighten header & nav gaps on very small screens */
+  header{padding:6px 10px;}
+  nav   {gap:12px;}
+}
+header {
+  flex-wrap: nowrap;
+  flex-direction: row;
+  gap: 10px;
+}
+.logo {
+  flex: 1;               /* logo takes available space */
+  display: flex;
+  align-items: center;
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;       /* Wrap icons in nav if they overflow */
+  justify-content: center;
+  gap: 16px;
+  flex-shrink: 0;        /* stop nav from shrinking too much */
+}
