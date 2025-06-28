@@ -30,6 +30,10 @@ A responsive web platform built for the **Livewire Dance Club** at **VNRVJIET**,
 
 ## Setup
 
-1. Clone the repository  
-   ```bash
-   git clone https://github.com/Bhavana-429/livewire_website
+Follow these steps to run this project locally:
+
+### 1. Clone or Download the Repository
+
+```bash
+git clone https://github.com/Bhavana-429/livewire_website.git
+cd livewire_website
